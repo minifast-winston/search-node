@@ -1,0 +1,19 @@
+{
+  "status":200,
+  "response":{
+    "KPFacilities":[
+      {
+        "facility_type":"Medical Office Building",
+        "official_name":"Wildomar Medical Offices",
+        "address":{
+          "street":"36450 Inland Valley Drive",
+          "city":"Wildomar",
+          "state":"CA",
+          "zip":"92595"
+        },
+        "url":"http:\/\/kp.org\/kpweb\/facilitydir\/facility.do?id=100043",
+        "loc":["-117.236", "33.5911"]
+      }
+    ]
+  }
+}
