@@ -1,0 +1,8 @@
+pairs:
+  dr: Doc Ritezel; doc
+  et: Evan Tahler; evan
+email:
+  prefix: pair
+  domain: ministryofvelocity.com
+  no_solo_prefix: true
+global: false  
