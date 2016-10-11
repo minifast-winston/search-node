@@ -49,7 +49,7 @@ Notes:
 
 ## API:
 - Server Status: `curl -X GET "http://localhost:3000/api/status"`
-- Check a Word: `curl -X GET "http://localhost:6002/api/nearest?lat=37.8269775&lon=-122.4229555"`
+- Check a Word: `curl -X GET "http://localhost:3000/api/nearest?lat=37.8269775&lon=-122.4229555"`
 
 ## Testing
 
