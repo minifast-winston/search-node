@@ -49,7 +49,7 @@ Notes:
 
 ## API:
 - Server Status: `curl -X GET "http://localhost:3000/api/status"`
-- Find nearest facilites: `curl -X GET "http://localhost:3000/api/nearest?lat=37.8269775&lon=-122.4229555"`
+- Find nearest facilities: `curl -X GET "http://localhost:3000/api/nearest?lat=37.8269775&lon=-122.4229555"`
 
 ## Testing
 
