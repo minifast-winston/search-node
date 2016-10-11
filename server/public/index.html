@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>IBM Compose for Elasticsearch for Bluemix Kaiser Permanente Exmaple</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js" type="text/javascript"></script>
+  </head>
+
+  <body>
+    <table>
+      <tr>
+        <td style= "width:30%;">
+          <img class = "newappIcon" src="https://worldvectorlogo.com/logos/elasticsearch.svg">
+        </td>
+        <td>
+          <h1 id="message">Kaiser Permanente Elasticsearch Example</h1>
+          <h2>Find the nearest Kaiser Permanente Facility To You</h2>
+          <form id="addressForm">
+            Address <input type="text" id="address" value=""/>
+            <input type="submit" value="Search" />
+          </form>
+        </td>
+      </tr>
+      <tr id="hidden">
+        <td>
+          <p class="description">
+            <h2>Search Results</h2>
+            <div>
+              <table id="results">
+                <thead>
+                  <tr>
+                    <th><strong>Name<strong></th>
+                    <th><strong>Type<strong></th>
+                    <th><strong>Address<strong></th>
+                    <th><strong>Distance From You<strong></th>
+                  </tr>
+                </thead>
+                <tbody>
+                </tbody>
+              </table>
+            </div>
+          </p>
+        </td>
+      </tr>
+    </table>
+
+  </body>
+
+  <script>
+  $("document").ready(function(){
+    $('#hidden').hide();
+    $("#addressForm").submit(app.submit);
+  });
+
+  var app = {
+    location: [],
+
+    submit: function(event){
+      event.preventDefault();
+      app.geolocate();
+      return false;
+    },
+
+    geolocate: function(address){
+      var address = $('#address').val();
+      $.getJSON('https://maps.googleapis.com/maps/api/geocode/json?address=' + address, function(data){
+        if(data.results.length === 0){ return alert('cannot geolocate you'); }
+        var location = data.results[0].geometry.location;
+        app.location = [ location.lat, location.lng ];
+        app.load();
+      });
+    },
+
+    load: function(){
+      $.getJSON('/api/nearest?lat=' + app.location[0] + '&lon=' + app.location[1], function(data){
+        if(data.error){
+          console.log(data.error);
+          return alert('error (see console)');
+        }
+
+        var html = '';
+
+        data.hits.forEach(function(entry){
+          html += '<tr>';
+          html += '<td><strong><a href="' + entry.source.url + '">' + entry.source.official_name + '</a></srong></td>';
+          html += '<td>' + entry.source.facility_type + '</td>';
+          html += '<td>' +
+            entry.source.address.street + '<br />' +
+            entry.source.address.city + '<br />' +
+            entry.source.address.state + ' ' +
+            entry.source.address.zip +
+            '</td>';
+          html += '<td>' + Math.round(entry.distance) + 'km </td>';
+          html += '</tr>';
+        });
+
+        $('#results tbody').html(html);
+        $('#hidden').show();
+      });
+    },
+  }
+
+  </script>
+
+</html>

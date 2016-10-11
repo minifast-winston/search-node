@@ -50,14 +50,15 @@ module.exports = function(app) {
       if(error){
         res.json({error: error});
       }else{
-        res.json({
-          hits: response.hits.hits.map((e) => {
-            return {
-              source: e._source,
-              distance: e.sort[0],
-            }
+        let hits = [];
+        response.hits.hits.forEach((hit) => {
+          hits.push({
+            source: hit._source,
+            distance: hit.sort[0],
           })
         });
+
+        res.json({hits: hits});
       }
     });
   });

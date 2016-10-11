@@ -39,11 +39,12 @@ const boot = function(env, callback){
   app.server = app.listen(PORT, function() {
 
     app.clients = {
-      index: `${process.env.NODE_ENV}-kaiser-locations`,
+      index: `${app.env}-kaiser-locations`,
       elasticsearch: new Client(env).configure(),
     };
 
-    console.log(`*** Server running on port ${PORT} in ${app.env} ***\r\n`);
+    console.log(`*** Server running on port ${PORT} in ${app.env} ***`);
+    console.log(`connecting to elasticsearch index \`${app.clients.index}\``)
 
     if(typeof callback === 'function'){ return callback(null, app); }
   });
