@@ -148,7 +148,10 @@ describe('Loader', () => {
         if (error) { return done(error); }
         elasticsearch.indices.refresh({index: Loader.index()}, (error) => {
           if (error) { return done(error); }
-          elasticsearch.search({query: {match: {official_name: 'Wildomar Medical Offices'}}}, (error, response) => {
+          elasticsearch.search({
+            query: {match: {official_name: 'Wildomar Medical Offices'}},
+            index: Loader.index()
+          }, (error, response) => {
             if (error) { return done(error); }
             response.hits.total.should.equal(1);
             response.hits.hits[0]._source.official_name.should.equal('Wildomar Medical Offices');
