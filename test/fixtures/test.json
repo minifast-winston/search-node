@@ -13,6 +13,20 @@
         },
         "url":"http:\/\/kp.org\/kpweb\/facilitydir\/facility.do?id=100043",
         "loc":["-117.236", "33.5911"]
+      },
+
+      {
+        "facility_type":"Trampoline Gym",
+        "official_name":"House of Air",
+        "address":{
+          "street":"926 Old Mason St",
+          "city":"San Francisco",
+          "state":"CA",
+          "zip":"94129"
+        },
+        "url":"http:\/\/kp.org\/kpweb\/facilitydir\/facility.do?id=100043",
+        "url":"https:\/\/www.houseofair.com",
+        "loc":["-122.468840", "37.804893"]
       }
     ]
   }

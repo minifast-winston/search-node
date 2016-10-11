@@ -48,6 +48,12 @@ describe('Server', () => {
     loader.load(elasticsearch, done);
   });
 
+  before(function(done){
+    // we need to wait for the index to refresh to use GEO filters
+    this.timeout(10000);
+    setTimeout(done, 5001);
+  });
+
   after((done) => {
     app.server.close();
     process.nextTick(done);
@@ -60,11 +66,41 @@ describe('Server', () => {
   it('should respond with a status API', (done) => {
     request.get('http://localhost:3001/api/status', function(error, response) {
       should.not.exist(error);
-      var body = JSON.parse(response.body);
+      let body = JSON.parse(response.body);
       body.happy.should.equal(true);
       body.uptime.should.be.greaterThanOrEqual(0);
       done();
     });
   });
 
+  describe('#nearest', () => {
+    it('requires lat', (done) => {
+      request.get('http://localhost:3001/api/nearest', function(error, response) {
+        should.not.exist(error);
+        let body = JSON.parse(response.body);
+        body.error.should.equal('lat is a required query param for this API');
+        done();
+      });
+    });
+
+    it('requires lon', (done) => {
+      request.get('http://localhost:3001/api/nearest?lat=123', function(error, response) {
+        should.not.exist(error);
+        let body = JSON.parse(response.body);
+        body.error.should.equal('lon is a required query param for this API');
+        done();
+      });
+    });
+
+    it('should return the nearest addresses to a point sorted by distance', (done) => {
+      request.get('http://localhost:3001/api/nearest?lat=37.804893&lon=-122.468840', function(error, response) {
+        should.not.exist(error);
+        let body = JSON.parse(response.body);
+        body.hits.length.should.equal(2);
+        body.hits[0].source.official_name.should.equal('House of Air');
+        body.hits[0].distance.should.be.belowOrEqual(0.001);
+        done();
+      });
+    });
+  });
 });

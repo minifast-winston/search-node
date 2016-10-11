@@ -12,7 +12,6 @@
   "private": true,
   "license": "Unlicensed",
   "dependencies": {
-    "body-parser": "^1.15.2",
     "cfenv": "^1.0.3",
     "elasticsearch": "^11.0.1",
     "glob": "^7.1.1",

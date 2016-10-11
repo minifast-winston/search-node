@@ -45,9 +45,9 @@ describe('Loader', () => {
   });
 
   describe('#facilities', () => {
-    it('finds all facilities', () => {
-      loader.facilities().length.should.equal(1);
-      loader.facilities()[0].official_name.should.equal('Wildomar Medical Offices');
+    it('finds all facilities', (done) => {
+      loader.facilities().length.should.equal(2);
+      done();
     });
   });
 
@@ -149,7 +149,7 @@ describe('Loader', () => {
         elasticsearch.indices.refresh({index: Loader.index()}, (error) => {
           if (error) { return done(error); }
           elasticsearch.search({
-            query: {match: {official_name: 'Wildomar Medical Offices'}},
+            body: { query: { match: {'official_name': 'Wildomar Medical Offices'}}},
             index: Loader.index()
           }, (error, response) => {
             if (error) { return done(error); }

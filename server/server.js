@@ -11,7 +11,6 @@ const loopback   = require('loopback');
 const morgan     = require('morgan');
 const helmet     = require('helmet');
 const glob       = require('glob');
-const bodyParser = require('body-parser');
 
 // create our server app
 const app = loopback();
@@ -21,7 +20,6 @@ app.env = process.env.NODE_ENV || 'development';
 
 // load-in middleware
 app.use(helmet());                                    // general security
-app.use(bodyParser.urlencoded({extended: true}));     // parse URL/POST body
 app.use('/', loopback.static(__dirname + '/public')); // serve static assets
 
 if (app.env !== 'test') {
@@ -41,7 +39,8 @@ const boot = function(env, callback){
   app.server = app.listen(PORT, function() {
 
     app.clients = {
-      elasticsearch: new Client(env),
+      index: `${process.env.NODE_ENV}-kaiser-locations`,
+      elasticsearch: new Client(env).configure(),
     };
 
     console.log(`*** Server running on port ${PORT} in ${app.env} ***\r\n`);
