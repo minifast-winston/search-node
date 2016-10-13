@@ -7,7 +7,9 @@
     "start": "node .",
     "test": "NODE_ENV=test mocha"
   },
-  "engines": ">= 4.0.0",
+  "engines": {
+     "node": "6.4.0"
+  },
   "author": "Ministry of Velocity LLC",
   "private": true,
   "license": "Unlicensed",
